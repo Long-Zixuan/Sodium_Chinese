@@ -188,6 +188,14 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
             else if (os.contains("nix") || os.contains("nux") || os.indexOf("aix") > 0)
             {
                 command = "lscpu";
+                if(os.contains("andr") || os.contains("harm"))//安卓也是Linux
+                {
+                    command = "cat /proc/cpuinfo";
+                }
+            }
+            else if(os.contains("andr") || os.contains("harm"))
+            {
+                command = "cat /proc/cpuinfo";
             }
             else
             {
@@ -205,6 +213,13 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
             }
             System.out.println("CPU信息："+ result.get(2));
             CPUInfo = result.get(2);
+            try
+            {
+                //CPUInfo = CPUInfo.substring(0,18);
+            }
+            catch (Exception e)
+            {
+            }
             reader.close();
         }
         catch (Exception e)
@@ -221,8 +236,8 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         //this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height - 60, 200, 20), Component.translatable("sodium.options.buttons.os"+":"+OSInfo), this::doNothing);
         //this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height -80, 200, 20), Component.translatable("sodium.options.buttons.cpu"+":"+CPUInfo), this::doNothing);
 
-        this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height - 60, 200, 20), Component.literal("OS"+":"+OSInfo + "    "), this::doNothing);
-        this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height -80, 200, 20), Component.literal("CPU"+":"+CPUInfo + "    "), this::doNothing);
+        this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 60, 211, 20), Component.literal("OS"+":"+OSInfo), this::doNothing);
+        this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -80, 211, 20), Component.literal("CPU"+":"+CPUInfo), this::doNothing);
 
         if (SodiumClientMod.options().notifications.hasClearedDonationButton) {
             this.setDonationButtonVisibility(false);
@@ -476,10 +491,17 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         return !this.hasPendingChanges;
     }
 
+    int chickCount = 0;
     public void doNothing()
     {
         // Do Nothing
         System.out.println("Do Nothing");
+        chickCount++;
+        if (chickCount == 10)
+        {
+            Util.getPlatform()
+                    .openUri("https://mod.3dmgame.com/u/23059615/Home");
+        }
         return;
     }
 
