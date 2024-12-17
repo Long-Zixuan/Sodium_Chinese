@@ -42,6 +42,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
+
+import java.nio.ByteBuffer;
+
 // TODO: Rename in Sodium 0.6
 public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
     private final List<OptionPage> pages = new ArrayList<>();
@@ -55,7 +61,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
     private FlatButtonWidget applyButton, closeButton, undoButton;
     private FlatButtonWidget donateButton, hideDonateButton;
 
-    private FlatButtonWidget OSInfoButton,CPUInfoButton;
+    private FlatButtonWidget OSInfoButton,CPUInfoButton,GLInfoButton;
 
     private boolean hasPendingChanges;
     private ControlElement<?> hoveredElement;
@@ -168,14 +174,26 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
 
         this.rebuildGUIPages();
         this.rebuildGUIOptions();
+        ////////////////////////////////////
+        String glInfo = "Unknown";
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            // 获取OpenGL版本
+            String version = GL11.glGetString(GL11.GL_VERSION);
+
+            System.out.println("OpenGL Version: " + version);
+            glInfo = version;
+        }
+
+
+        /////////////////////////////////////
         /////get cpu and os info//////
         String CPUInfo = "Unknown";
         String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
 
+        String os = System.getProperty("os.name").toLowerCase();
         try
         {
             // 使用 Runtime 类的 exec 方法执行系统命令
-            String os = System.getProperty("os.name").toLowerCase();
             String command;
             if (os.contains("win"))
             {
@@ -226,6 +244,10 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         {
             e.printStackTrace();
         }
+        if(!os.contains("win"))
+        {
+            CPUInfo = "Based on " + System.getProperty("os.arch") + " CPU";
+        }
 //////////////////////////////////////////////////
         this.undoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.undo"), this::undoChanges);
         this.applyButton = new FlatButtonWidget(new Dim2i(this.width - 142, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.apply"), this::applyChanges);
@@ -238,6 +260,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
 
         this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 60, 211, 20), Component.literal("OS"+":"+OSInfo), this::doNothing);
         this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -80, 211, 20), Component.literal("CPU"+":"+CPUInfo), this::doNothing);
+        this.GLInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -100, 211, 20), Component.literal("GL Version"+":"+glInfo), this::doNothing);
 
         if (SodiumClientMod.options().notifications.hasClearedDonationButton) {
             this.setDonationButtonVisibility(false);
@@ -245,6 +268,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
 
         this.addRenderableWidget(this.OSInfoButton);
         this.addRenderableWidget(this.CPUInfoButton);
+        this.addRenderableWidget(this.GLInfoButton);
 
         this.addRenderableWidget(this.undoButton);
         this.addRenderableWidget(this.applyButton);
@@ -387,7 +411,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
 
         int boxHeight = (tooltip.size() * 12) + boxPadding;
         int boxYLimit = boxY + boxHeight;
-        int boxYCutoff = this.height - 80;//原来是40
+        int boxYCutoff = this.height - 100;//原来是40
 
         // If the box is going to be cutoff on the Y-axis, move it back up the difference
         if (boxYLimit > boxYCutoff) {
