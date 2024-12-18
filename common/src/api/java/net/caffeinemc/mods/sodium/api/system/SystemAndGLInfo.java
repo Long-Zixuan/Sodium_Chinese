@@ -67,23 +67,16 @@ public class SystemAndGLInfo
             }
             System.out.println("CPU信息："+ result.get(2));
             CPUInfo = result.get(2);
-            try
-            {
-                //CPUInfo = CPUInfo.substring(0,18);
-            }
-            catch (Exception e)
-            {
-            }
             reader.close();
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            return "Unknown";
+            return System.getProperty("os.arch") + " based CPU";
         }
         if(!os.contains("win"))
         {
-            CPUInfo = "Based on " + System.getProperty("os.arch") + " CPU";
+            CPUInfo = System.getProperty("os.arch") + " based CPU";
         }
         return CPUInfo;
     }

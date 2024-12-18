@@ -223,7 +223,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
     * 而我只需要将此编译好的jar解包（7z解压）将此java编译而成的class复制到其余版本对应位置替换原有的class然后打包即可（jar -cvf [给jar起的名字] ./）
     * 但是如果我讲此函数封装在其他类里，意味着我需要复制替换两个class，这很可能出错，所以当我便会保留这两个函数，在给其他版本模组编译class时使用
     * 编译1.21.4版本时会注释这两个函数*/
-   /* private String getCPUInfo()
+    /*private String getCPUInfo()
     {
         String CPUInfo = "Unknown";
         String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
@@ -281,11 +281,11 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         catch (Exception e)
         {
             e.printStackTrace();
-            return "Unknown";
+            return System.getProperty("os.arch") + " based CPU";
         }
         if(!os.contains("win"))
         {
-            CPUInfo = "Based on " + System.getProperty("os.arch") + " CPU";
+            CPUInfo = System.getProperty("os.arch") + " based CPU";
         }
         return CPUInfo;
     }
