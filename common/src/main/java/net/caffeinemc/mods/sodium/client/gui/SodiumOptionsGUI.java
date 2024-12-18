@@ -1,5 +1,6 @@
 package net.caffeinemc.mods.sodium.client.gui;
 
+import net.caffeinemc.mods.sodium.api.system.SystemAndGLInfo;
 import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.caffeinemc.mods.sodium.client.data.fingerprint.HashedFingerprint;
 import net.caffeinemc.mods.sodium.client.console.Console;
@@ -174,19 +175,56 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
 
         this.rebuildGUIPages();
         this.rebuildGUIOptions();
-        ////////////////////////////////////
-        String glInfo = "Unknown";
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            // 获取OpenGL版本
-            String version = GL11.glGetString(GL11.GL_VERSION);
-
-            System.out.println("OpenGL Version: " + version);
-            glInfo = version;
-        }
 
 
         /////////////////////////////////////
         /////get cpu and os info//////
+        /*这里不用API获取，修改1.21其余字版本用这段代码，打包后只需将此java编译的class复制到对应位置即可*/
+        /*String CPUInfo = getCPUInfo();
+        String glInfo = getGLVersion();*/
+        /*这里不用API获取，修改1.21其余字版本用这段代码，打包后只需将此java编译的class复制到对应位置即可*/
+
+        /*这里是用封装的API获取*/
+        String glInfo = SystemAndGLInfo.getInstance().getGLVersion();
+        String CPUInfo = SystemAndGLInfo.getInstance().getCPUInfo();
+        /*这里是用封装的API获取*/
+        String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
+        //////////////////////////////////////////////////
+        this.undoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.undo"), this::undoChanges);
+        this.applyButton = new FlatButtonWidget(new Dim2i(this.width - 142, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.apply"), this::applyChanges);
+        this.closeButton = new FlatButtonWidget(new Dim2i(this.width - 73, this.height - 30, 65, 20), Component.translatable("gui.done"), this::onClose);
+        this.donateButton = new FlatButtonWidget(new Dim2i(this.width - 128, 6, 100, 20), Component.translatable("sodium.options.buttons.donate"), this::openDonationPage);
+        this.hideDonateButton = new FlatButtonWidget(new Dim2i(this.width - 26, 6, 20, 20), Component.literal("x"), this::hideDonationButton);
+
+        //this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height - 60, 200, 20), Component.translatable("sodium.options.buttons.os"+":"+OSInfo), this::doNothing);
+        //this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height -80, 200, 20), Component.translatable("sodium.options.buttons.cpu"+":"+CPUInfo), this::doNothing);
+
+        this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 60, 211, 20), Component.literal("OS"+":"+OSInfo), this::doNothing);
+        this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -80, 211, 20), Component.literal("CPU"+":"+CPUInfo), this::doNothing);
+        this.GLInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -100, 211, 20), Component.literal("GL Version"+":"+glInfo), this::doNothing);
+
+        if (SodiumClientMod.options().notifications.hasClearedDonationButton) {
+            this.setDonationButtonVisibility(false);
+        }
+
+        this.addRenderableWidget(this.OSInfoButton);
+        this.addRenderableWidget(this.CPUInfoButton);
+        this.addRenderableWidget(this.GLInfoButton);
+
+        this.addRenderableWidget(this.undoButton);
+        this.addRenderableWidget(this.applyButton);
+        this.addRenderableWidget(this.closeButton);
+        this.addRenderableWidget(this.donateButton);
+        this.addRenderableWidget(this.hideDonateButton);
+    }
+
+    /*众所周知，在类中编写无关函数是大忌，那么为什么我要在此编写getCPUInfo函数和getGLVersion函数呢？因为我只编译了我的世界1.21.4的该模组，
+    * 而1.21-1.21.3的其他版本我并未编译，
+    * 而我只需要将此编译好的jar解包（7z解压）将此java编译而成的class复制到其余版本对应位置替换原有的class然后打包即可（jar -cvf [给jar起的名字] ./）
+    * 但是如果我讲此函数封装在其他类里，意味着我需要复制替换两个class，这很可能出错，所以当我便会保留这两个函数，在给其他版本模组编译class时使用
+    * 编译1.21.4版本时会注释这两个函数*/
+   /* private String getCPUInfo()
+    {
         String CPUInfo = "Unknown";
         String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
 
@@ -243,39 +281,35 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         catch (Exception e)
         {
             e.printStackTrace();
+            return "Unknown";
         }
         if(!os.contains("win"))
         {
             CPUInfo = "Based on " + System.getProperty("os.arch") + " CPU";
         }
-//////////////////////////////////////////////////
-        this.undoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.undo"), this::undoChanges);
-        this.applyButton = new FlatButtonWidget(new Dim2i(this.width - 142, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.apply"), this::applyChanges);
-        this.closeButton = new FlatButtonWidget(new Dim2i(this.width - 73, this.height - 30, 65, 20), Component.translatable("gui.done"), this::onClose);
-        this.donateButton = new FlatButtonWidget(new Dim2i(this.width - 128, 6, 100, 20), Component.translatable("sodium.options.buttons.donate"), this::openDonationPage);
-        this.hideDonateButton = new FlatButtonWidget(new Dim2i(this.width - 26, 6, 20, 20), Component.literal("x"), this::hideDonationButton);
-
-        //this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height - 60, 200, 20), Component.translatable("sodium.options.buttons.os"+":"+OSInfo), this::doNothing);
-        //this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height -80, 200, 20), Component.translatable("sodium.options.buttons.cpu"+":"+CPUInfo), this::doNothing);
-
-        this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 60, 211, 20), Component.literal("OS"+":"+OSInfo), this::doNothing);
-        this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -80, 211, 20), Component.literal("CPU"+":"+CPUInfo), this::doNothing);
-        this.GLInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -100, 211, 20), Component.literal("GL Version"+":"+glInfo), this::doNothing);
-
-        if (SodiumClientMod.options().notifications.hasClearedDonationButton) {
-            this.setDonationButtonVisibility(false);
-        }
-
-        this.addRenderableWidget(this.OSInfoButton);
-        this.addRenderableWidget(this.CPUInfoButton);
-        this.addRenderableWidget(this.GLInfoButton);
-
-        this.addRenderableWidget(this.undoButton);
-        this.addRenderableWidget(this.applyButton);
-        this.addRenderableWidget(this.closeButton);
-        this.addRenderableWidget(this.donateButton);
-        this.addRenderableWidget(this.hideDonateButton);
+        return CPUInfo;
     }
+
+
+    public String getGLVersion()
+    {
+        String glInfo = "Unknown";
+        try (MemoryStack stack = MemoryStack.stackPush())
+        {
+            // 获取OpenGL版本
+            String version = GL11.glGetString(GL11.GL_VERSION);
+
+            System.out.println("OpenGL Version: " + version);
+            glInfo = version;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return "Unknown";
+        }
+        return glInfo;
+    }*/
+
 
     private void setDonationButtonVisibility(boolean value) {
         this.donateButton.setVisible(value);

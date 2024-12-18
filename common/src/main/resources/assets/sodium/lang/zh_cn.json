@@ -22,7 +22,7 @@
   "sodium.options.clouds_quality.tooltip": "用于渲染天空中云的质量级别。尽管这些选项被标记为“流畅”和“极高”，但对性能的影响可以忽略不计。",
   "sodium.options.weather_quality.tooltip": "控制渲染雨雪等天气效果的渲染距离。",
   "sodium.options.leaves_quality.name": "叶子质量",
-  "sodium.options.leaves_quality.tooltip": "控制叶子是渲染为透明（极高）还是不透明（流畅）。",
+  "sodium.options.leaves_quality.tooltip": "控制叶子是渲染为透明（高品质）还是不透明（流畅）。",
   "sodium.options.particle_quality.tooltip": "控制同屏可以出现的最大粒子数。",
   "sodium.options.smooth_lighting.tooltip": "启用世界中块的平滑照明和着色。这可能会略微增加加载或更新块所需的时间，但不会影响帧率。",
   "sodium.options.biome_blend.value": "%s 个方块",
