@@ -73,6 +73,7 @@ dependencies {
     configurationPreLaunch("net.java.dev.jna:jna-platform:5.14.0")
     configurationPreLaunch("org.slf4j:slf4j-api:2.0.9")
     configurationPreLaunch("org.jetbrains:annotations:25.0.0")
+    configurationPreLaunch("com.github.oshi:oshi-core:6.4.0")
 }
 
 loom {

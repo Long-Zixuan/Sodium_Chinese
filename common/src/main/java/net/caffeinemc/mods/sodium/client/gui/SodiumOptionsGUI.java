@@ -188,7 +188,8 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         String glInfo = SystemAndGLInfo.getInstance().getGLVersion();
         String CPUInfo = SystemAndGLInfo.getInstance().getCPUInfo();
         /*这里是用封装的API获取*/
-        String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
+        //String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
+        String OSInfo = SystemAndGLInfo.getInstance().getOSInfo();
         //////////////////////////////////////////////////
         this.undoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.undo"), this::undoChanges);
         this.applyButton = new FlatButtonWidget(new Dim2i(this.width - 142, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.apply"), this::applyChanges);

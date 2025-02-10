@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.HardwareAbstractionLayer;
+
 public class SystemAndGLInfo
 {
     private static SystemAndGLInfo _instance = new SystemAndGLInfo();
@@ -23,7 +27,7 @@ public class SystemAndGLInfo
 
     public String getCPUInfo()
     {
-        String CPUInfo = "Unknown";
+        /*String CPUInfo = "Unknown";
         String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
 
         String os = System.getProperty("os.name").toLowerCase();
@@ -78,7 +82,35 @@ public class SystemAndGLInfo
         {
             CPUInfo = System.getProperty("os.arch") + " based CPU";
         }
-        return CPUInfo;
+        return CPUInfo;*/
+        try
+        {
+            String CPUName = "";
+            // 创建 SystemInfo 实例
+            SystemInfo systemInfo = new SystemInfo();
+
+            // 获取硬件抽象层
+            HardwareAbstractionLayer hardware = systemInfo.getHardware();
+
+            // 获取 CPU 信息
+            CentralProcessor processor = hardware.getProcessor();
+
+            CPUName = processor.getProcessorIdentifier().getName();
+
+            // 输出 CPU 名称
+            System.out.println("CPU 名称: " + CPUName);
+
+            if(CPUName == null || CPUName.equals(""))
+            {
+                return System.getProperty("os.arch") + " based CPU";
+            }
+            return CPUName;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return System.getProperty("os.arch") + " based CPU";
+        }
     }
 
     public String getGLVersion()
@@ -98,6 +130,11 @@ public class SystemAndGLInfo
             return "Unknown";
         }
         return glInfo;
+    }
+
+    public String getOSInfo()
+    {
+        return System.getProperty("os.name")+" "+System.getProperty("os.version");
     }
 
 
