@@ -67,6 +67,9 @@
   "sodium.console.config_file_was_reset":  "設定檔已重置為推薦的預設值。",
   "sodium.options.buttons.os": "OS",
   "sodium.options.buttons.cpu": "CPU",
-  "LZX":"LoongLy"
+  "LZX":"LoongLy",
+  "sodium.options.set_pov_warm.name":  "關閉Pojav啟動器警告",
+  "sodium.options.set_pov_warm.tooltip":  "將不再顯示關於Pojav啟動器的警告",
+  "sodium.options.pages.lunchsettings":  "啟動器"
   }
   

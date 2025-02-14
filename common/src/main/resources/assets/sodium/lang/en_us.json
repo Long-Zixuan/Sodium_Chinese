@@ -67,5 +67,8 @@
   "sodium.console.config_file_was_reset": "The config file has been reset to known-good defaults.",
   "sodium.options.buttons.os": "OS",
   "sodium.options.buttons.cpu": "CPU",
-  "LZX":"LoongLy"
+  "LZX":"LoongLy",
+  "sodium.options.set_pov_warm.name": "No longer show PojavLauncher warning",
+  "sodium.options.set_pov_warm.tooltip": "If you known what are you doing now, you can turn off the warning by clicking here.",
+  "sodium.options.pages.lunchsettings": "Lunch Settings"
 }

@@ -12,6 +12,9 @@ import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SystemAndGLInfo
 {
     private static SystemAndGLInfo _instance = new SystemAndGLInfo();
@@ -137,6 +140,38 @@ public class SystemAndGLInfo
         return System.getProperty("os.name")+" "+System.getProperty("os.version");
     }
 
+    public boolean isUsingPojavLauncher() {
+        if (System.getenv("POJAV_RENDERER") != null) {
+            //System.out.println("Detected presence of environment variable POJAV_LAUNCHER, which seems to indicate we are running on Android");
+
+            return true;
+        }
+
+        var librarySearchPaths = System.getProperty("java.library.path", null);
+
+        if (librarySearchPaths != null) {
+            for (var path : librarySearchPaths.split(":")) {
+                if (isKnownAndroidPathFragment(path)) {
+                   // System.out.println("Found a library search path which seems to be hosted in an Android filesystem: {}", path);
+
+                    return true;
+                }
+            }
+        }
+
+        /*var workingDirectory = System.getProperty("user.home", null);
+
+        if (workingDirectory != null) {
+            if (isKnownAndroidPathFragment(workingDirectory)) {
+                System.out.println("Working directory seems to be hosted in an Android filesystem: {}", workingDirectory);
+            }
+        }*/
+        return false;
+    }
+
+    public boolean isKnownAndroidPathFragment(String path) {
+        return path.matches("/data/user/[0-9]+/net\\.kdt\\.pojavlaunch");
+    }
 
 }
 

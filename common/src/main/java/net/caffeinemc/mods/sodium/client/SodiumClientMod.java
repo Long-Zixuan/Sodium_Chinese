@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import net.caffeinemc.mods.sodium.client.console.Console;
+import net.caffeinemc.mods.sodium.client.console.message.MessageLevel;
+
+import net.caffeinemc.mods.sodium.api.system.SystemAndGLInfo;
+
 public class SodiumClientMod {
     private static SodiumGameOptions CONFIG;
     private static final Logger LOGGER = LoggerFactory.getLogger("Sodium");
@@ -21,6 +26,14 @@ public class SodiumClientMod {
         MOD_VERSION = version;
 
         CONFIG = loadConfig();
+
+        if (SystemAndGLInfo.getInstance().isUsingPojavLauncher() && !CONFIG.luncherSettings.noLongerShowPovWarning)
+        {
+            Console.instance().logMessage(MessageLevel.WARN, "sodium.console.pojav_launcher", true, 10.0);
+            LOGGER.warn("It appears that PojavLauncher is being used with an OpenGL compatibility layer. This will " +
+                    "likely cause severe performance issues, graphical issues, and crashes when used with Sodium. This " +
+                    "configuration is not supported -- you are on your own!");
+        }
 
         try {
             updateFingerprint();

@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import net.caffeinemc.mods.sodium.api.system.SystemAndGLInfo;
+
 // TODO: Rename in Sodium 0.6
 public class SodiumGameOptionPages {
     private static final SodiumOptionsStorage sodiumOpts = new SodiumOptionsStorage();
@@ -358,6 +360,27 @@ public class SodiumGameOptionPages {
 
         return new OptionPage(Component.translatable("sodium.options.pages.performance"), ImmutableList.copyOf(groups));
     }
+
+    //LZX
+    public static OptionPage luncherSettings()
+    {
+        List<OptionGroup> groups = new ArrayList<>();
+        if (SystemAndGLInfo.getInstance().isUsingPojavLauncher())
+        {
+            groups.add(OptionGroup.createBuilder()
+                .add(OptionImpl.createBuilder(boolean.class, sodiumOpts)
+                        .setName(Component.translatable("sodium.options.set_pov_warm.name"))
+                        .setTooltip(Component.translatable("sodium.options.set_pov_warm.tooltip"))
+                        .setControl(TickBoxControl::new)
+                        .setBinding((opts, value) -> opts.luncherSettings.noLongerShowPovWarning = value, opts -> opts.luncherSettings.noLongerShowPovWarning)
+                        .setImpact(OptionImpact.LOW)
+                        .setFlags(OptionFlag.REQUIRES_RENDERER_RELOAD)
+                        .build())
+                .build());
+        }
+        return new OptionPage(Component.translatable("sodium.options.pages.lunchsettings"), ImmutableList.copyOf(groups));
+    }
+
 
     private static boolean supportsNoErrorContext() {
         GLCapabilities capabilities = GL.getCapabilities();

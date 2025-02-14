@@ -24,6 +24,7 @@ public class SodiumGameOptions {
     public final AdvancedSettings advanced = new AdvancedSettings();
     public final PerformanceSettings performance = new PerformanceSettings();
     public final NotificationSettings notifications = new NotificationSettings();
+    public final LuncherSettings luncherSettings = new LuncherSettings();
 
     private boolean readOnly;
 
@@ -71,6 +72,12 @@ public class SodiumGameOptions {
     public static class NotificationSettings {
         public boolean hasClearedDonationButton = false;
         public boolean hasSeenDonationPrompt = false;
+    }
+
+    //LZX
+    public static class LuncherSettings
+    {
+        public boolean noLongerShowPovWarning = false;
     }
 
     public enum GraphicsQuality implements TextProvider {
