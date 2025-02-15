@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/*import oshi.SystemInfo;
+import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
-import oshi.hardware.HardwareAbstractionLayer;*/
+import oshi.hardware.HardwareAbstractionLayer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
