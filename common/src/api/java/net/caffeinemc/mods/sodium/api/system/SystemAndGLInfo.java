@@ -18,6 +18,14 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.HashMap;
 
+//import com.alibaba.fastjson.JSON;
+//import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 public class SystemAndGLInfo
 {
     private static SystemAndGLInfo _instance = new SystemAndGLInfo();
@@ -31,9 +39,25 @@ public class SystemAndGLInfo
 
     void initMobileSocPathNumberAndName()
     {
+        String jsonFilePath = "/assets/sodium/soc_map/MobileSocPathNumberToName.json";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try (InputStream inputStream = this.getClass().getResourceAsStream(jsonFilePath)) {
+            if (inputStream == null) {
+                System.err.println("JSON 文件未找到: " + jsonFilePath);
+                return;
+            }
+
+            // 使用 Jackson 将 JSON 流直接转换为 Map 对象
+            mobileSocPathNumberAndName = objectMapper.readValue(inputStream, Map.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //Snapdragon
         //8
-        mobileSocPathNumberAndName.put("SM8650-AB","Snapdragon 8 Gen 3");
+        /*mobileSocPathNumberAndName.put("SM8650-AB","Snapdragon 8 Gen 3");
         mobileSocPathNumberAndName.put("SM8635","Snapdragon 8s Gen 3");
         mobileSocPathNumberAndName.put("SM8550-AB","Snapdragon 8 Gen 2");
         mobileSocPathNumberAndName.put("SM8475","Snapdragon 8+ Gen 1");
@@ -98,7 +122,7 @@ public class SystemAndGLInfo
         mobileSocPathNumberAndName.put("MT6785V/CC","MediaTek Helio G90T MediaTek HyperEngine Gaming");
         mobileSocPathNumberAndName.put("MT6785","MediaTek Helio G90 MediaTek HyperEngine Gaming");
         mobileSocPathNumberAndName.put("MT6769V/CZ","MediaTek Helio G85");
-        mobileSocPathNumberAndName.put("MT6769V/CU","MediaTek Helio G80");
+        mobileSocPathNumberAndName.put("MT6769V/CU","MediaTek Helio G80");*/
     }
     private SystemAndGLInfo()
     {
