@@ -35,9 +35,9 @@ public class SystemAndGLInfo
         return _instance;
     }
 
-    private Map<String,String> mobileSocPathNumberAndName = new HashMap();
+    private Map<String,String> mobileSocPathNumberToSocNameMap = new HashMap();
 
-    void initMobileSocPathNumberAndName()
+    void initmobileSocPathNumberToSocNameMap()
     {
         String jsonFilePath = "/assets/sodium/soc_map/MobileSocPathNumberToName.json";
 
@@ -50,90 +50,90 @@ public class SystemAndGLInfo
             }
 
             // 使用 Jackson 将 JSON 流直接转换为 Map 对象
-            mobileSocPathNumberAndName = objectMapper.readValue(inputStream, Map.class);
+            mobileSocPathNumberToSocNameMap = objectMapper.readValue(inputStream, Map.class);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         //Snapdragon
         //8
-        /*mobileSocPathNumberAndName.put("SM8650-AB","Snapdragon 8 Gen 3");
-        mobileSocPathNumberAndName.put("SM8635","Snapdragon 8s Gen 3");
-        mobileSocPathNumberAndName.put("SM8550-AB","Snapdragon 8 Gen 2");
-        mobileSocPathNumberAndName.put("SM8475","Snapdragon 8+ Gen 1");
-        mobileSocPathNumberAndName.put("SM8450","Snapdragon 8 Gen 1");
-        mobileSocPathNumberAndName.put("SM8350-AC","Snapdragon 888+");
-        mobileSocPathNumberAndName.put("SM8350","Snapdragon 888");
-        mobileSocPathNumberAndName.put("SM8250-AC","Snapdragon 870");
-        mobileSocPathNumberAndName.put("SM8250-AB","Snapdragon 865+");
-        mobileSocPathNumberAndName.put("SM8250","Snapdragon 865");
+        /*mobileSocPathNumberToSocNameMap.put("SM8650-AB","Snapdragon 8 Gen 3");
+        mobileSocPathNumberToSocNameMap.put("SM8635","Snapdragon 8s Gen 3");
+        mobileSocPathNumberToSocNameMap.put("SM8550-AB","Snapdragon 8 Gen 2");
+        mobileSocPathNumberToSocNameMap.put("SM8475","Snapdragon 8+ Gen 1");
+        mobileSocPathNumberToSocNameMap.put("SM8450","Snapdragon 8 Gen 1");
+        mobileSocPathNumberToSocNameMap.put("SM8350-AC","Snapdragon 888+");
+        mobileSocPathNumberToSocNameMap.put("SM8350","Snapdragon 888");
+        mobileSocPathNumberToSocNameMap.put("SM8250-AC","Snapdragon 870");
+        mobileSocPathNumberToSocNameMap.put("SM8250-AB","Snapdragon 865+");
+        mobileSocPathNumberToSocNameMap.put("SM8250","Snapdragon 865");
         //7
-        mobileSocPathNumberAndName.put("SM7675","Snapdragon 7+ Gen 3");
-        mobileSocPathNumberAndName.put("SM7550-AB","Snapdragon 7 Gen 3");
-        mobileSocPathNumberAndName.put("SM7475-AB","Snapdragon 7+ Gen 2");
-        mobileSocPathNumberAndName.put("SM7450-AB","Snapdragon 7 Gen 1");
-        mobileSocPathNumberAndName.put("SM7435-AB","Snapdragon 7s Gen 2");
-        mobileSocPathNumberAndName.put("SM7350-AB","Snapdragon 780G");
-        mobileSocPathNumberAndName.put("SM7325-AE","Snapdragon 778G+");
-        mobileSocPathNumberAndName.put("SM7325","Snapdragon 778G");
-        mobileSocPathNumberAndName.put("SM7250-AC","Snapdragon 768G");
-        mobileSocPathNumberAndName.put("SM7150-AB-","Snapdragon 765G");
-        mobileSocPathNumberAndName.put("SM7250-AB-","Snapdragon 765G");
-        mobileSocPathNumberAndName.put("SM7250-AA","Snapdragon 765");
-        mobileSocPathNumberAndName.put("SM7225","Snapdragon 750G");
-        mobileSocPathNumberAndName.put("SM7150-AC","Snapdragon 732G");
-        mobileSocPathNumberAndName.put("SM7150-AB","Snapdragon 730G");
-        mobileSocPathNumberAndName.put("SM7150-AA","Snapdragon 730");
-        mobileSocPathNumberAndName.put("SM7125","Snapdragon 720G");
-        mobileSocPathNumberAndName.put("SDM712","Snapdragon 712");
-        mobileSocPathNumberAndName.put("SDM710","Snapdragon 710");
+        mobileSocPathNumberToSocNameMap.put("SM7675","Snapdragon 7+ Gen 3");
+        mobileSocPathNumberToSocNameMap.put("SM7550-AB","Snapdragon 7 Gen 3");
+        mobileSocPathNumberToSocNameMap.put("SM7475-AB","Snapdragon 7+ Gen 2");
+        mobileSocPathNumberToSocNameMap.put("SM7450-AB","Snapdragon 7 Gen 1");
+        mobileSocPathNumberToSocNameMap.put("SM7435-AB","Snapdragon 7s Gen 2");
+        mobileSocPathNumberToSocNameMap.put("SM7350-AB","Snapdragon 780G");
+        mobileSocPathNumberToSocNameMap.put("SM7325-AE","Snapdragon 778G+");
+        mobileSocPathNumberToSocNameMap.put("SM7325","Snapdragon 778G");
+        mobileSocPathNumberToSocNameMap.put("SM7250-AC","Snapdragon 768G");
+        mobileSocPathNumberToSocNameMap.put("SM7150-AB-","Snapdragon 765G");
+        mobileSocPathNumberToSocNameMap.put("SM7250-AB-","Snapdragon 765G");
+        mobileSocPathNumberToSocNameMap.put("SM7250-AA","Snapdragon 765");
+        mobileSocPathNumberToSocNameMap.put("SM7225","Snapdragon 750G");
+        mobileSocPathNumberToSocNameMap.put("SM7150-AC","Snapdragon 732G");
+        mobileSocPathNumberToSocNameMap.put("SM7150-AB","Snapdragon 730G");
+        mobileSocPathNumberToSocNameMap.put("SM7150-AA","Snapdragon 730");
+        mobileSocPathNumberToSocNameMap.put("SM7125","Snapdragon 720G");
+        mobileSocPathNumberToSocNameMap.put("SDM712","Snapdragon 712");
+        mobileSocPathNumberToSocNameMap.put("SDM710","Snapdragon 710");
         //MTK
         //Dimensity
-        mobileSocPathNumberAndName.put("MT6989","MediaTek Dimensity 9300");
-        mobileSocPathNumberAndName.put("MT6985Z","MediaTek Dimensity 9200+");
-        mobileSocPathNumberAndName.put("MT6985","MediaTek Dimensity 9200");
-        mobileSocPathNumberAndName.put("MT6983Z","MediaTek Dimensity 9000+");
-        mobileSocPathNumberAndName.put("MT6983","MediaTek Dimensity 9000");
-        mobileSocPathNumberAndName.put("MT6896ZB","MediaTek Dimensity 8200-Ultra");
-        mobileSocPathNumberAndName.put("MT6896Z/CZA","MediaTek Dimensity 8200");
-        mobileSocPathNumberAndName.put("MT6895Z","MediaTek Dimensity 8100");
-        mobileSocPathNumberAndName.put("MT6893Z_T/CZA","MediaTek Dimensity 8050");
-        mobileSocPathNumberAndName.put("MT6895","MediaTek Dimensity 8000");
-        mobileSocPathNumberAndName.put("MT6886","MediaTek Dimensity 7200");
-        mobileSocPathNumberAndName.put("MT6893Z","MediaTek Dimensity 1300");
-        mobileSocPathNumberAndName.put("MT6893","MediaTek Dimensity 1200");
-        mobileSocPathNumberAndName.put("MT6891Z","MediaTek Dimensity 1100");
-        mobileSocPathNumberAndName.put("MT6885Z","MediaTek Dimensity 1000L");
-        mobileSocPathNumberAndName.put("MT6883Z/CZA","MediaTek Dimensity 1000C");
-        mobileSocPathNumberAndName.put("MT6889Z/CZA","MediaTek Dimensity 1000+");
-        mobileSocPathNumberAndName.put("MT6889","MediaTek Dimensity 1000");
-        mobileSocPathNumberAndName.put("MT6877T","MediaTek Dimensity 920");
-        mobileSocPathNumberAndName.put("MT6877V/ZA","MediaTek Dimensity 900");
-        mobileSocPathNumberAndName.put("MT6875","MediaTek Dimensity 820");
-        mobileSocPathNumberAndName.put("MT6853V/TNZA","MediaTek Dimensity 800U");
-        mobileSocPathNumberAndName.put("MT6833V","MediaTek Dimensity 810");
-        mobileSocPathNumberAndName.put("MT6853V","MediaTek Dimensity 800U 5G");
-        mobileSocPathNumberAndName.put("MT6873/MT6873V","MediaTek Dimensity 800");
-        mobileSocPathNumberAndName.put("MT6853V/ZA","MediaTek Dimensity 720");
-        mobileSocPathNumberAndName.put("MT6833V/ZA","MediaTek Dimensity 700");
+        mobileSocPathNumberToSocNameMap.put("MT6989","MediaTek Dimensity 9300");
+        mobileSocPathNumberToSocNameMap.put("MT6985Z","MediaTek Dimensity 9200+");
+        mobileSocPathNumberToSocNameMap.put("MT6985","MediaTek Dimensity 9200");
+        mobileSocPathNumberToSocNameMap.put("MT6983Z","MediaTek Dimensity 9000+");
+        mobileSocPathNumberToSocNameMap.put("MT6983","MediaTek Dimensity 9000");
+        mobileSocPathNumberToSocNameMap.put("MT6896ZB","MediaTek Dimensity 8200-Ultra");
+        mobileSocPathNumberToSocNameMap.put("MT6896Z/CZA","MediaTek Dimensity 8200");
+        mobileSocPathNumberToSocNameMap.put("MT6895Z","MediaTek Dimensity 8100");
+        mobileSocPathNumberToSocNameMap.put("MT6893Z_T/CZA","MediaTek Dimensity 8050");
+        mobileSocPathNumberToSocNameMap.put("MT6895","MediaTek Dimensity 8000");
+        mobileSocPathNumberToSocNameMap.put("MT6886","MediaTek Dimensity 7200");
+        mobileSocPathNumberToSocNameMap.put("MT6893Z","MediaTek Dimensity 1300");
+        mobileSocPathNumberToSocNameMap.put("MT6893","MediaTek Dimensity 1200");
+        mobileSocPathNumberToSocNameMap.put("MT6891Z","MediaTek Dimensity 1100");
+        mobileSocPathNumberToSocNameMap.put("MT6885Z","MediaTek Dimensity 1000L");
+        mobileSocPathNumberToSocNameMap.put("MT6883Z/CZA","MediaTek Dimensity 1000C");
+        mobileSocPathNumberToSocNameMap.put("MT6889Z/CZA","MediaTek Dimensity 1000+");
+        mobileSocPathNumberToSocNameMap.put("MT6889","MediaTek Dimensity 1000");
+        mobileSocPathNumberToSocNameMap.put("MT6877T","MediaTek Dimensity 920");
+        mobileSocPathNumberToSocNameMap.put("MT6877V/ZA","MediaTek Dimensity 900");
+        mobileSocPathNumberToSocNameMap.put("MT6875","MediaTek Dimensity 820");
+        mobileSocPathNumberToSocNameMap.put("MT6853V/TNZA","MediaTek Dimensity 800U");
+        mobileSocPathNumberToSocNameMap.put("MT6833V","MediaTek Dimensity 810");
+        mobileSocPathNumberToSocNameMap.put("MT6853V","MediaTek Dimensity 800U 5G");
+        mobileSocPathNumberToSocNameMap.put("MT6873/MT6873V","MediaTek Dimensity 800");
+        mobileSocPathNumberToSocNameMap.put("MT6853V/ZA","MediaTek Dimensity 720");
+        mobileSocPathNumberToSocNameMap.put("MT6833V/ZA","MediaTek Dimensity 700");
         //G
-        mobileSocPathNumberAndName.put("MT6789","MediaTek Helio G99");
-        mobileSocPathNumberAndName.put("MT6785V/CD","MediaTek Helio G95 Premium 4G Gaming Smartphones");
-        mobileSocPathNumberAndName.put("MT6785V/CC","MediaTek Helio G90T MediaTek HyperEngine Gaming");
-        mobileSocPathNumberAndName.put("MT6785","MediaTek Helio G90 MediaTek HyperEngine Gaming");
-        mobileSocPathNumberAndName.put("MT6769V/CZ","MediaTek Helio G85");
-        mobileSocPathNumberAndName.put("MT6769V/CU","MediaTek Helio G80");*/
+        mobileSocPathNumberToSocNameMap.put("MT6789","MediaTek Helio G99");
+        mobileSocPathNumberToSocNameMap.put("MT6785V/CD","MediaTek Helio G95 Premium 4G Gaming Smartphones");
+        mobileSocPathNumberToSocNameMap.put("MT6785V/CC","MediaTek Helio G90T MediaTek HyperEngine Gaming");
+        mobileSocPathNumberToSocNameMap.put("MT6785","MediaTek Helio G90 MediaTek HyperEngine Gaming");
+        mobileSocPathNumberToSocNameMap.put("MT6769V/CZ","MediaTek Helio G85");
+        mobileSocPathNumberToSocNameMap.put("MT6769V/CU","MediaTek Helio G80");*/
     }
     private SystemAndGLInfo()
     {
-        initMobileSocPathNumberAndName();
+        initmobileSocPathNumberToSocNameMap();
     }
 
     private String getMobileSocNameWithPathNumber(String pathNumber)
     {
-        if(mobileSocPathNumberAndName.containsKey(pathNumber))
+        if(mobileSocPathNumberToSocNameMap.containsKey(pathNumber))
         {
-            return (String)mobileSocPathNumberAndName.get(pathNumber);
+            return (String)mobileSocPathNumberToSocNameMap.get(pathNumber);
         }
         return pathNumber;
     }
