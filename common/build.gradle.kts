@@ -76,6 +76,7 @@ dependencies {
     configurationPreLaunch("org.slf4j:slf4j-api:2.0.9")
     configurationPreLaunch("org.jetbrains:annotations:25.0.0")
     configurationPreLaunch("com.github.oshi:oshi-core:6.4.0")
+    configurationPreLaunch("com.fasterxml.jackson.core:jackson-databind:2.13.0")
 }
 
 loom {

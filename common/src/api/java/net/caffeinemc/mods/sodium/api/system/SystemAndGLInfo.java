@@ -15,6 +15,17 @@ import oshi.hardware.HardwareAbstractionLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+import java.util.HashMap;
+
+//import com.alibaba.fastjson.JSON;
+//import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 public class SystemAndGLInfo
 {
     private static SystemAndGLInfo _instance = new SystemAndGLInfo();
@@ -23,9 +34,39 @@ public class SystemAndGLInfo
     {
         return _instance;
     }
+
+    private Map<String,String> mobileSocPathNumberAndName = new HashMap();
+
+    void initMobileSocPathNumberAndName()
+    {
+        String jsonFilePath = "/assets/sodium/soc_map/MobileSocPathNumberToName.json";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try (InputStream inputStream = this.getClass().getResourceAsStream(jsonFilePath)) {
+            if (inputStream == null) {
+                System.err.println("JSON 文件未找到: " + jsonFilePath);
+                return;
+            }
+
+            mobileSocPathNumberAndName = objectMapper.readValue(inputStream, Map.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private SystemAndGLInfo()
     {
+        initMobileSocPathNumberAndName();
+    }
 
+    private String getMobileSocNameWithPathNumber(String pathNumber)
+    {
+        if(mobileSocPathNumberAndName.containsKey(pathNumber))
+        {
+            return (String)mobileSocPathNumberAndName.get(pathNumber);
+        }
+        return pathNumber;
     }
 
     public String getCPUInfo()
@@ -51,7 +92,7 @@ public class SystemAndGLInfo
             {
                 return System.getProperty("os.arch") + " based CPU";
             }
-            return CPUName;
+            return getMobileSocNameWithPathNumber(CPUName);
         }
         catch (Exception e)
         {

@@ -177,19 +177,9 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         this.rebuildGUIPages();
         this.rebuildGUIOptions();
 
-
-        /////////////////////////////////////
-        /////get cpu and os info//////
-        /*这里不用API获取，修改1.21其余字版本用这段代码，打包后只需将此java编译的class复制到对应位置即可*/
-        /*String CPUInfo = getCPUInfo();
-        String glInfo = getGLVersion();*/
-        /*这里不用API获取，修改1.21其余字版本用这段代码，打包后只需将此java编译的class复制到对应位置即可*/
-
         /*这里是用封装的API获取*/
         String glInfo = SystemAndGLInfo.getInstance().getGLVersion();
         String CPUInfo = SystemAndGLInfo.getInstance().getCPUInfo();
-        /*这里是用封装的API获取*/
-        //String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
         String OSInfo = SystemAndGLInfo.getInstance().getOSInfo();
         //////////////////////////////////////////////////
         this.undoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 30, 65, 20), Component.translatable("sodium.options.buttons.undo"), this::undoChanges);
@@ -219,99 +209,6 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         this.addRenderableWidget(this.donateButton);
         this.addRenderableWidget(this.hideDonateButton);
     }
-
-    /*众所周知，在类中编写无关函数是大忌，那么为什么我要在此编写getCPUInfo函数和getGLVersion函数呢？因为我只编译了我的世界1.21.4的该模组，
-    * 而1.21-1.21.3的其他版本我并未编译，
-    * 而我只需要将此编译好的jar解包（7z解压）将此java编译而成的class复制到其余版本对应位置替换原有的class然后打包即可（jar -cvf [给jar起的名字] ./）
-    * 但是如果我讲此函数封装在其他类里，意味着我需要复制替换两个class，这很可能出错，所以当我便会保留这两个函数，在给其他版本模组编译class时使用
-    * 编译1.21.4版本时会注释这两个函数*/
-    /*private String getCPUInfo()
-    {
-        String CPUInfo = "Unknown";
-        String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
-
-        String os = System.getProperty("os.name").toLowerCase();
-        try
-        {
-            // 使用 Runtime 类的 exec 方法执行系统命令
-            String command;
-            if (os.contains("win"))
-            {
-                command = "wmic cpu get name";
-            }
-            else if (os.contains("mac"))
-            {
-                command = "sysctl -n machdep.cpu.brand_string";
-            }
-            else if (os.contains("nix") || os.contains("nux") || os.indexOf("aix") > 0)
-            {
-                command = "lscpu";
-                if(os.contains("andr") || os.contains("harm"))//安卓也是Linux
-                {
-                    command = "cat /proc/cpuinfo";
-                }
-            }
-            else if(os.contains("andr") || os.contains("harm"))
-            {
-                command = "cat /proc/cpuinfo";
-            }
-            else
-            {
-                command = "unknown";
-            }
-
-            // 执行命令并获取输出
-            Process process = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            List<String> result = new ArrayList<String>();
-            while ((line = reader.readLine()) != null)
-            {
-                result.add(line.trim());
-            }
-            System.out.println("CPU信息："+ result.get(2));
-            CPUInfo = result.get(2);
-            try
-            {
-                //CPUInfo = CPUInfo.substring(0,18);
-            }
-            catch (Exception e)
-            {
-            }
-            reader.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return System.getProperty("os.arch") + " based CPU";
-        }
-        if(!os.contains("win"))
-        {
-            CPUInfo = System.getProperty("os.arch") + " based CPU";
-        }
-        return CPUInfo;
-    }
-
-
-    public String getGLVersion()
-    {
-        String glInfo = "Unknown";
-        try (MemoryStack stack = MemoryStack.stackPush())
-        {
-            // 获取OpenGL版本
-            String version = GL11.glGetString(GL11.GL_VERSION);
-
-            System.out.println("OpenGL Version: " + version);
-            glInfo = version;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return "Unknown";
-        }
-        return glInfo;
-    }*/
-
 
     private void setDonationButtonVisibility(boolean value) {
         this.donateButton.setVisible(value);
