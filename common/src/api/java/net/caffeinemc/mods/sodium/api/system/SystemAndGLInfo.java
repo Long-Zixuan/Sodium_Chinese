@@ -35,9 +35,9 @@ public class SystemAndGLInfo
         return _instance;
     }
 
-    private Map<String,String> mobileSocPathNumberAndName = new HashMap();
+    private Map<String,String> mobileSocPathNumberToSocNameMap = new HashMap();
 
-    void initMobileSocPathNumberAndName()
+    void initmobileSocPathNumberToSocNameMap()
     {
         String jsonFilePath = "/assets/sodium/soc_map/MobileSocPathNumberToName.json";
 
@@ -49,7 +49,7 @@ public class SystemAndGLInfo
                 return;
             }
 
-            mobileSocPathNumberAndName = objectMapper.readValue(inputStream, Map.class);
+            mobileSocPathNumberToSocNameMap = objectMapper.readValue(inputStream, Map.class);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,14 +57,14 @@ public class SystemAndGLInfo
     }
     private SystemAndGLInfo()
     {
-        initMobileSocPathNumberAndName();
+        initmobileSocPathNumberToSocNameMap();
     }
 
     private String getMobileSocNameWithPathNumber(String pathNumber)
     {
-        if(mobileSocPathNumberAndName.containsKey(pathNumber))
+        if(mobileSocPathNumberToSocNameMap.containsKey(pathNumber))
         {
-            return (String)mobileSocPathNumberAndName.get(pathNumber);
+            return (String)mobileSocPathNumberToSocNameMap.get(pathNumber);
         }
         return pathNumber;
     }
