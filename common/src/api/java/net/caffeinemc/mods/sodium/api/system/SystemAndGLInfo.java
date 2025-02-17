@@ -125,7 +125,7 @@ public class SystemAndGLInfo
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String jsonStr = doGet("https://raw.githubusercontent.com/Long-Zixuan/Long-Zixuan.github.io/master/json/sodium/soc_map/MobileSocPathNumberToName.json");
+        String jsonStr = doGet("https://gitee.com/zixuan_long/Json/raw/master/sodium/soc_map/MobileSocPathNumberToName.json");
         if(jsonStr != null)
         {
             try
