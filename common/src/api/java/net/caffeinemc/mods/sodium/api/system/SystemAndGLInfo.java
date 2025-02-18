@@ -11,6 +11,7 @@ import java.util.List;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
+import oshi.hardware.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,214 @@ public class SystemAndGLInfo
     }
 
     private Map<String,String> mobileSocPathNumberToSocNameMap = new HashMap();
+
+    private SystemInfo systemInfo = null;
+    private HardwareAbstractionLayer infoHardware = null;
+    public CPUInfo cpuInfo = null;
+    public List<GPUInfo>gpuInfoList;
+    public List<MemoryInfo>memoryInfoList;
+
+    public double getJVMTotalMemory()
+    {
+        Runtime runtime = Runtime.getRuntime();
+        return runtime.totalMemory() / (1024 * 1024);
+    }
+
+    public static class MemoryInfo
+    {
+        private String name;
+        private String vendor;
+        private double size;
+        private double clockSpeed;
+        private String type;
+        private String bankLabel;
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        public String getVendor()
+        {
+            return this.vendor;
+        }
+
+        public double getSize()
+        {
+            return this.size;
+        }
+
+        public double getClockSpeed()
+        {
+            return this.clockSpeed;
+        }
+
+        public String getType()
+        {
+            return this.type;
+        }
+
+        public String getBankLabel()
+        {
+            return this.bankLabel;
+        }
+
+        public MemoryInfo(String _name, String _vendor, double _size, double _clockSpeed, String _type, String _bankLabel)
+        {
+            this.name = _name;
+            this.vendor = _vendor;
+            this.size = _size;
+            this.clockSpeed = _clockSpeed;
+            this.type = _type;
+            this.bankLabel = _bankLabel;
+        }
+    }
+
+    private void initMemoryInfo()
+    {
+        List<PhysicalMemory> physicalMemories = infoHardware.getMemory().getPhysicalMemory();
+        memoryInfoList = new ArrayList();
+
+        for (int i = 0; i < physicalMemories.size(); i++) {
+            PhysicalMemory memory = physicalMemories.get(i);
+            MemoryInfo memoryInfo = new MemoryInfo(memory.getBankLabel(), memory.getManufacturer(),
+                    memory.getCapacity() / (1024 * 1024), memory.getClockSpeed() / (1024 * 1024 * 1024), memory.getMemoryType(),
+                    memory.getBankLabel());
+            memoryInfoList.add(memoryInfo);
+                /*log.info("制造商：{}", memory.getManufacturer());
+                log.info("内存类型：{}", memory.getMemoryType());
+                log.info("插槽标识：{}", memory.getBankLabel());
+                log.info("容量：{} MB", memory.getCapacity() / (1024 * 1024));
+                log.info("时钟频率：{} MHz", memory.getClockSpeed());*/
+        }
+    }
+
+    public static class GPUInfo
+    {
+        private String name;
+        private String vendor;
+        private double vRam;
+        private int gpuCount;
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        public String getVendor()
+        {
+            return this.vendor;
+        }
+
+        public double getVRam()
+        {
+            return this.vRam;
+        }
+
+        public int getGpuCount()
+        {
+            return this.gpuCount;
+        }
+
+        public GPUInfo(String _name, String _vendor, double _vRam)
+        {
+            this.name = _name;
+            this.vendor = _vendor;
+            this.vRam = _vRam;
+        }
+    }
+
+    public void initGPUInfo()
+    {
+        List<GraphicsCard> graphicsCards = infoHardware.getGraphicsCards();
+        gpuInfoList = new ArrayList();
+        for (int i = 0; i < graphicsCards.size(); i++)
+        {
+            GPUInfo gpuInfo = new GPUInfo(graphicsCards.get(i).getName(), graphicsCards.get(i).getVendor(), graphicsCards.get(i).getVRam() / (1024 * 1024 * 1024));
+            gpuInfoList.add(gpuInfo);
+        }
+    }
+
+    public static class CPUInfo
+    {
+        private String name;
+        private String vendor;
+        private String family;
+        private String model;
+        private int cores;
+        private int threads;
+        private double frequency;
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        public String getVendor()
+        {
+            return this.vendor;
+        }
+
+        public String getFamily()
+        {
+            return this.family;
+        }
+
+        public String getModel()
+        {
+            return this.model;
+        }
+
+        public int getCores()
+        {
+            return this.cores;
+        }
+
+        public int getThreads()
+        {
+            return this.threads;
+        }
+
+        public double getFrequency()
+        {
+            return this.frequency;
+        }
+        public CPUInfo(String _name, String _vendor, String _family, String _model, int _cores, int _threads, double _frequency)
+        {
+            this.name = _name;
+            this.vendor = _vendor;
+            this.family = _family;
+            this.model = _model;
+            this.cores = _cores;
+            this.threads = _threads;
+            this.frequency = _frequency;
+        }
+    }
+
+    public void initCPUInfo()
+    {
+        try
+        {
+            String CPUName = "";
+            CentralProcessor processor = infoHardware.getProcessor();
+
+            CPUName = processor.getProcessorIdentifier().getName();
+
+            if(CPUName == null || CPUName.equals(""))
+            {
+                CPUName = System.getProperty("os.arch") + " based CPU";
+            }
+
+            cpuInfo = new CPUInfo(getMobileSocNameWithPathNumber(CPUName), processor.getProcessorIdentifier().getVendor(),
+                    processor.getProcessorIdentifier().getFamily(), processor.getProcessorIdentifier().getModel(),
+                    processor.getPhysicalProcessorCount(), processor.getLogicalProcessorCount(),
+                    processor.getProcessorIdentifier().getVendorFreq());
+        }
+        catch (Exception e)
+        {
+            cpuInfo = new CPUInfo("Unknown", "Unknown", "Unknown", "Unknown", 0, 0, 0);
+        }
+    }
 
     public String doGet(String httpurl)
     {
@@ -210,9 +419,15 @@ public class SystemAndGLInfo
     }
     private SystemAndGLInfo()
     {
-        CompletableFuture.runAsync(() -> {
-            initmobileSocPathNumberToSocNameMap();
-        });
+        systemInfo = new SystemInfo();
+        infoHardware = systemInfo.getHardware();
+        initmobileSocPathNumberToSocNameMap();
+        initGPUInfo();
+        initCPUInfo();
+        initMemoryInfo();
+        /*CompletableFuture.runAsync(() -> {
+
+        });*/
     }
 
     private String getMobileSocNameWithPathNumber(String pathNumber)
@@ -222,94 +437,6 @@ public class SystemAndGLInfo
             return (String)mobileSocPathNumberToSocNameMap.get(pathNumber);
         }
         return pathNumber;
-    }
-
-    public String getCPUInfo()
-    {
-        /*String CPUInfo = "Unknown";
-        String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
-
-        String os = System.getProperty("os.name").toLowerCase();
-        try
-        {
-            // 使用 Runtime 类的 exec 方法执行系统命令
-            String command;
-            if (os.contains("win"))
-            {
-                command = "wmic cpu get name";
-            }
-            else if (os.contains("mac"))
-            {
-                command = "sysctl -n machdep.cpu.brand_string";
-            }
-            else if (os.contains("nix") || os.contains("nux") || os.indexOf("aix") > 0)
-            {
-                command = "lscpu";
-                if(os.contains("andr") || os.contains("harm"))//安卓也是Linux
-                {
-                    command = "cat /proc/cpuinfo";
-                }
-            }
-            else if(os.contains("andr") || os.contains("harm"))
-            {
-                command = "cat /proc/cpuinfo";
-            }
-            else
-            {
-                command = "unknown";
-            }
-
-            // 执行命令并获取输出
-            Process process = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            List<String> result = new ArrayList<String>();
-            while ((line = reader.readLine()) != null)
-            {
-                result.add(line.trim());
-            }
-            System.out.println("CPU信息："+ result.get(2));
-            CPUInfo = result.get(2);
-            reader.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return System.getProperty("os.arch") + " based CPU";
-        }
-        if(!os.contains("win"))
-        {
-            CPUInfo = System.getProperty("os.arch") + " based CPU";
-        }
-        return CPUInfo;*/
-        try
-        {
-            String CPUName = "";
-            // 创建 SystemInfo 实例
-            SystemInfo systemInfo = new SystemInfo();
-
-            // 获取硬件抽象层
-            HardwareAbstractionLayer hardware = systemInfo.getHardware();
-
-            // 获取 CPU 信息
-            CentralProcessor processor = hardware.getProcessor();
-
-            CPUName = processor.getProcessorIdentifier().getName();
-
-            // 输出 CPU 名称
-            System.out.println("CPU 名称: " + CPUName);
-
-            if(CPUName == null || CPUName.equals(""))
-            {
-                return System.getProperty("os.arch") + " based CPU";
-            }
-            return getMobileSocNameWithPathNumber(CPUName);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return System.getProperty("os.arch") + " based CPU";
-        }
     }
 
     public String getGLVersion()

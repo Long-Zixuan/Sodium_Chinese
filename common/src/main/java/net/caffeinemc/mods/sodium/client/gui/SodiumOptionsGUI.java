@@ -62,7 +62,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
     private FlatButtonWidget applyButton, closeButton, undoButton;
     private FlatButtonWidget donateButton, hideDonateButton;
 
-    private FlatButtonWidget OSInfoButton,CPUInfoButton,GLInfoButton;
+    private FlatButtonWidget OSInfoButton,GLInfoButton;
 
     private boolean hasPendingChanges;
     private ControlElement<?> hoveredElement;
@@ -79,6 +79,9 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         this.pages.add(SodiumGameOptionPages.performance());
         this.pages.add(SodiumGameOptionPages.advanced());
         this.pages.add(SodiumGameOptionPages.luncherSettings());
+        this.pages.add(SodiumGameOptionPages.cpuInfo());
+        this.pages.add(SodiumGameOptionPages.gpuInfo());
+        this.pages.add(SodiumGameOptionPages.memoryInfo());
         this.checkPromptTimers();
     }
 
@@ -187,7 +190,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
 
         /*这里是用封装的API获取*/
         String glInfo = SystemAndGLInfo.getInstance().getGLVersion();
-        String CPUInfo = SystemAndGLInfo.getInstance().getCPUInfo();
+        String CPUInfo = "SystemAndGLInfo.getInstance().getCPUInfo()";
         /*这里是用封装的API获取*/
         //String OSInfo = System.getProperty("os.name")+" "+System.getProperty("os.version");
         String OSInfo = SystemAndGLInfo.getInstance().getOSInfo();
@@ -198,19 +201,14 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         this.donateButton = new FlatButtonWidget(new Dim2i(this.width - 128, 6, 100, 20), Component.translatable("sodium.options.buttons.donate"), this::openDonationPage);
         this.hideDonateButton = new FlatButtonWidget(new Dim2i(this.width - 26, 6, 20, 20), Component.literal("x"), this::hideDonationButton);
 
-        //this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height - 60, 200, 20), Component.translatable("sodium.options.buttons.os"+":"+OSInfo), this::doNothing);
-        //this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 128, this.height -80, 200, 20), Component.translatable("sodium.options.buttons.cpu"+":"+CPUInfo), this::doNothing);
-
         this.OSInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 60, 211, 20), Component.literal("OS"+":"+OSInfo), this::doNothing);
-        this.CPUInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -80, 211, 20), Component.literal("CPU"+":"+CPUInfo), this::doNothing);
-        this.GLInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -100, 211, 20), Component.literal("GL Version"+":"+glInfo), this::doNothing);
+        this.GLInfoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height -80, 211, 20), Component.literal("GL Version"+":"+glInfo), this::doNothing);
 
         if (SodiumClientMod.options().notifications.hasClearedDonationButton) {
             this.setDonationButtonVisibility(false);
         }
 
         this.addRenderableWidget(this.OSInfoButton);
-        this.addRenderableWidget(this.CPUInfoButton);
         this.addRenderableWidget(this.GLInfoButton);
 
         this.addRenderableWidget(this.undoButton);
@@ -447,7 +445,7 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
 
         int boxHeight = (tooltip.size() * 12) + boxPadding;
         int boxYLimit = boxY + boxHeight;
-        int boxYCutoff = this.height - 100;//原来是40
+        int boxYCutoff = this.height - 80;//原来是40
 
         // If the box is going to be cutoff on the Y-axis, move it back up the difference
         if (boxYLimit > boxYCutoff) {

@@ -70,6 +70,20 @@
   "LZX":"LoongLy",
   "sodium.options.set_pov_warm.name":  "關閉Pojav啟動器警告",
   "sodium.options.set_pov_warm.tooltip":  "將不再顯示關於Pojav啟動器的警告",
-  "sodium.options.pages.lunchsettings":  "啟動器"
+  "sodium.options.pages.lunchsettings":  "啟動器",
+  "sodium.cpuInfo.name":"CPU名稱",
+  "sodium.hardware.vendor": "供應商",
+  "sodium.cpuInfo.cores": "物理覈心數",
+  "sodium.cpuInfo.threads": "邏輯覈心數",
+  "sodium.cpuInfo.frequency": "頻率",
+  "sodium.options.pages.cpuinfo":"CPU資訊",
+  "sodium.gpuInfo.name": "GPU名稱",
+  "sodium.gpuInfo.vram": "顯存",
+  "sodium.options.pages.gpuinfo": "GPU資訊",
+  "sodium.memoryInfo.name": "記憶體名稱",
+  "sodium.memoryInfo.size": "記憶體大小",
+  "sodium.memoryInfo.clockSpeed": "時鐘速度",
+  "sodium.memoryInfo.jvmTol":"JVM總記憶體",
+  "sodium.options.pages.memoryInfo": "記憶體資訊"
   }
   

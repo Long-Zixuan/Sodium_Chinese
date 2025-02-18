@@ -70,5 +70,19 @@
   "LZX":"LoongLy",
   "sodium.options.set_pov_warm.name": "No longer show PojavLauncher warning",
   "sodium.options.set_pov_warm.tooltip": "If you known what are you doing now, you can turn off the warning by clicking here.",
-  "sodium.options.pages.lunchsettings": "Lunch Settings"
+  "sodium.options.pages.lunchsettings": "Lunch Settings",
+  "sodium.cpuInfo.name": "CPU Name",
+  "sodium.hardware.vendor": "Vendor",
+  "sodium.cpuInfo.cores": "Cores",
+  "sodium.cpuInfo.threads": "Threads",
+  "sodium.cpuInfo.frequency": "Frequency",
+  "sodium.options.pages.cpuinfo": "CPU Info",
+  "sodium.gpuInfo.name": "GPU Name",
+  "sodium.gpuInfo.vram": "VRAM",
+  "sodium.options.pages.gpuinfo": "GPU Info",
+  "sodium.memoryInfo.name": "Memory Name",
+  "sodium.memoryInfo.size": "Memory Size",
+  "sodium.memoryInfo.clockSpeed": "Clock Speed",
+  "sodium.memoryInfo.jvmTol": "JVM Total Memory",
+  "sodium.options.pages.memoryInfo": "Memory Info"
 }
