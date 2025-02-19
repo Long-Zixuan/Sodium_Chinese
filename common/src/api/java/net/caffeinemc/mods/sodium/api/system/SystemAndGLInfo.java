@@ -272,7 +272,7 @@ public class SystemAndGLInfo
         }
         catch (Exception e)
         {
-            cpuInfo = new CPUInfo("Unknown", "Unknown", "Unknown", "Unknown", 0, 0, 0);
+            cpuInfo = new CPUInfo(System.getProperty("os.arch") + " based CPU", "Unknown", "Unknown", "Unknown", 0, 0, 0);
         }
     }
 
