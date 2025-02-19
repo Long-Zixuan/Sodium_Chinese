@@ -47,6 +47,8 @@ public class SystemAndGLInfo
     }
 
     private Map<String,String> mobileSocPathNumberToSocNameMap = new HashMap();
+    private Map<String,String> mobileGPUPathNumberToGPUNameMap = new HashMap();
+    private boolean isMobileSoc = false;
 
     private SystemInfo systemInfo = null;
     private HardwareAbstractionLayer infoHardware = null;
@@ -166,12 +168,30 @@ public class SystemAndGLInfo
 
     public void initGPUInfo()
     {
-        List<GraphicsCard> graphicsCards = infoHardware.getGraphicsCards();
         gpuInfoList = new ArrayList();
-        for (int i = 0; i < graphicsCards.size(); i++)
+        if(isMobileSoc)
         {
-            GPUInfo gpuInfo = new GPUInfo(graphicsCards.get(i).getName(), graphicsCards.get(i).getVendor(), graphicsCards.get(i).getVRam() / (1024 * 1024 * 1024));
-            gpuInfoList.add(gpuInfo);
+            initMobileGPUPathNumberToGPUNameMap();
+            CentralProcessor processor = infoHardware.getProcessor();
+
+            String GPUPartNumber = processor.getProcessorIdentifier().getName();
+
+            String GPUName = getMobileGPUNameWithPathNumber(GPUPartNumber);
+            if(isMobileSoc)
+            {
+                GPUInfo gpuInfo = new GPUInfo(GPUName, processor.getProcessorIdentifier().getVendor(), 66);
+                gpuInfoList.add(gpuInfo);
+            }
+        }
+        if(!isMobileSoc)
+        {
+            List<GraphicsCard> graphicsCards = infoHardware.getGraphicsCards();
+
+            for (int i = 0; i < graphicsCards.size(); i++)
+            {
+                GPUInfo gpuInfo = new GPUInfo(graphicsCards.get(i).getName(), graphicsCards.get(i).getVendor(), graphicsCards.get(i).getVRam() / (1024 * 1024 * 1024));
+                gpuInfoList.add(gpuInfo);
+            }
         }
     }
 
@@ -417,13 +437,48 @@ public class SystemAndGLInfo
         mobileSocPathNumberToSocNameMap.put("MT6769V/CZ","MediaTek Helio G85");
         mobileSocPathNumberToSocNameMap.put("MT6769V/CU","MediaTek Helio G80");*/
     }
+
+    void initMobileGPUPathNumberToGPUNameMap()
+    {
+        String jsonFilePath = "/assets/sodium/soc_map/MobileGPUPathNumberToName.json";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try (InputStream inputStream = this.getClass().getResourceAsStream(jsonFilePath)) {
+            if (inputStream == null) {
+                System.err.println("JSON 文件未找到: " + jsonFilePath);
+                return;
+            }
+
+            // 使用 Jackson 将 JSON 流直接转换为 Map 对象
+            mobileGPUPathNumberToGPUNameMap = objectMapper.readValue(inputStream, Map.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String jsonStr = doGet("https://gitee.com/zixuan_long/Json/raw/master/sodium/soc_map/MobileGPUPathNumberToName.json");
+        if(jsonStr != null)
+        {
+            try
+            {
+                objectMapper = new ObjectMapper();
+                InputStream inStream = new ByteArrayInputStream(jsonStr.getBytes());
+                mobileGPUPathNumberToGPUNameMap = objectMapper.readValue(inStream, Map.class);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     private SystemAndGLInfo()
     {
         systemInfo = new SystemInfo();
         infoHardware = systemInfo.getHardware();
         initmobileSocPathNumberToSocNameMap();
-        initGPUInfo();
         initCPUInfo();
+        initGPUInfo();
         initMemoryInfo();
         /*CompletableFuture.runAsync(() -> {
 
@@ -434,8 +489,19 @@ public class SystemAndGLInfo
     {
         if(mobileSocPathNumberToSocNameMap.containsKey(pathNumber))
         {
+            isMobileSoc = true;
             return (String)mobileSocPathNumberToSocNameMap.get(pathNumber);
         }
+        return pathNumber;
+    }
+
+    private String getMobileGPUNameWithPathNumber(String pathNumber)
+    {
+        if(mobileGPUPathNumberToGPUNameMap.containsKey(pathNumber))
+        {
+            return (String)mobileGPUPathNumberToGPUNameMap.get(pathNumber);
+        }
+        isMobileSoc = false;
         return pathNumber;
     }
 
