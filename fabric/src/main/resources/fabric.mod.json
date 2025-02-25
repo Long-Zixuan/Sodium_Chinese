@@ -3,7 +3,7 @@
   "id" : "sodium",
   "version" : "${version}",
   "name" : "Sodium",
-  "description" : "钠(Sodium)是Minecraft的强大渲染模组，大大提高了帧率，同时修复了许多图形问题\nSodium is a powerful rendering engine for Minecraft which greatly improves frame rates and micro-stutter, while fixing many graphical issues",
+  "description" : "Sodium is a powerful rendering engine for Minecraft which greatly improves frame rates and micro-stutter, while fixing many graphical issues",
   "authors" : [
     {
       "name" : "JellySquid (jellysquid3)",
@@ -35,11 +35,10 @@
     "TwistedZero",
     "Leo40Git",
     "haykam821",
-    "muzikbike",
-    "LoongLy"
+    "muzikbike"
   ],
   "contact" : {
-    "homepage" : "https://mod.3dmgame.com/mod/215903",
+    "homepage" : "https://github.com/CaffeineMC/sodium",
     "sources" : "https://github.com/CaffeineMC/sodium",
     "issues" : "https://github.com/CaffeineMC/sodium/issues"
   },
@@ -95,14 +94,14 @@
     "custom_hud" : "<3.4.2",
     "farsight" : "<=1.21-4.3",
     "iceberg" : "<1.2.7",
-    "iris" : "<1.8.1",
+    "iris" : "<1.8.7",
     "movingelevators" : "<=1.4.7",
     "notenoughcrashes" : "<4.4.8",
     "noxesium" : "<2.3.3",
     "reeses-sodium-options" : "<1.8.0",
     "sodium-extra" : "<0.6.0",
     "sspb" : "<4.0.0",
-    "moreculling": "<1.0.0",
+    "moreculling": "<1.2.4",
     "simply-no-shading": "<7.6.2"
   },
   "provides" : [

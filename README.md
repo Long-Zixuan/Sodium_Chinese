@@ -2,9 +2,12 @@
 
 # Sodium
 
-Sodium是Minecraft客户端的强大渲染引擎和优化模块，可提高帧率，同时修复Minecraft中的许多图形问题。
+Sodium is a powerful rendering engine and optimization mod for the Minecraft client which improves frame rates and reduces
+micro-stutter, while fixing many graphical issues in Minecraft.
 
-**这个模组是数千小时开发的结果，多亏了像你这样的玩家。** 如果你想对我的工作表示感谢，并在此过程中帮助支持钠的发展，那么可以考虑[buying me a coffee](https://caffeinemc.net/donate).
+**This mod is the result of thousands of hours of development, and is made possible thanks to players like you.** If you
+would like to show a token of your appreciation for my work, and help support the development of Sodium in the process,
+then consider [buying me a coffee](https://caffeinemc.net/donate).
 
 <a href="https://caffeinemc.net/donate"><img src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" width="180"/></a>
 
@@ -14,16 +17,16 @@ Sodium是Minecraft客户端的强大渲染引擎和优化模块，可提高帧�
 
 #### Stable builds
 
-钠的最新稳定版本可以从我们的官方网站下载[Modrinth](https://modrinth.com/mod/sodium) and
+The latest stable release of Sodium can be downloaded from our official [Modrinth](https://modrinth.com/mod/sodium) and
 [CurseForge](https://www.curseforge.com/minecraft/mc-mods/sodium) pages.
 
 #### Nightly builds (for developers)
 
-我们还提供最前沿的构建（“噩梦”），这对于在最新更改之前对其进行测试非常有用
-打包成一个版本。这些构建仅提供给其他具有专业技能的mod开发人员和用户，并且
-不提供任何支持或保修。通常情况下，它们会出现问题，并且缺乏与其他模组的兼容性。
+We also provide bleeding-edge builds ("nightlies") which are useful for testing the very latest changes before they're
+packaged into a release. These builds are only provided for other mod developers and users with expert skills, and do
+not come with any support or warranty. It is often the case they have issues and lack compatibility with other mods.
 
-每个当前开发分支的最新夜间构建可以在下面下载。
+The latest nightly build for each current branch of development can be downloaded below.
 
 - Minecraft 1.21.4 (latest): [Download nightly](https://nightly.link/CaffeineMC/sodium/workflows/build-commit/dev/sodium-artifacts-dev.zip) or [View all builds](https://github.com/CaffeineMC/sodium/actions/workflows/build-commit.yml?query=branch%3Adev)
 - Minecraft 1.21.3: [Download nightly](https://nightly.link/CaffeineMC/sodium/workflows/build-commit/1.21.3%2Fstable/sodium-artifacts-1.21.3-stable.zip) or [View all builds](https://github.com/CaffeineMC/sodium/actions/workflows/build-commit.yml?query=branch%3A1.21.3%2Fstable)
@@ -31,25 +34,25 @@ Sodium是Minecraft客户端的强大渲染引擎和优化模块，可提高帧�
 
 ### 🖥️ Installation
 
-自Sodium 0.6.0发布以来，支持_Fabric_和_NeoForge_mod加载器。我们一般推荐
-新用户更喜欢使用_Fabric_mod加载器，因为它（目前）更轻便、更稳定
+Since the release of Sodium 0.6.0, both the _Fabric_ and _NeoForge_ mod loaders are supported. We generally recommend
+that new users prefer to use the _Fabric_ mod loader, since it is more lightweight and stable (for the time being.)
 
-有关下载和安装mod的更多信息，请参阅我们的 [Installation Guide](https://github.com/CaffeineMC/sodium/wiki/Installation).
+For more information about downloading and installing the mod, please refer to our [Installation Guide](https://github.com/CaffeineMC/sodium/wiki/Installation).
 
 ### 🙇 Getting Help
 
-如需技术支持（包括模组安装问题和游戏崩溃的帮助），请使用我们的
+For technical support (including help with mod installation problems and game crashes), please use our
 [official Discord server](https://caffeinemc.net/discord).
 
 ### 📬 Reporting Issues
 
-如果您不需要技术支持，并且想报告问题（错误、崩溃等）或以其他方式请求更改
-（为了模组兼容性、新功能等），我们建议您在
+If you do not need technical support and would like to report an issue (bug, crash, etc.) or otherwise request changes
+(for mod compatibility, new features, etc.), then we encourage you to open an issue on the
 [project issue tracker](https://github.com/CaffeineMC/sodium/issues).
 
-请注意，虽然问题跟踪器对功能请求开放，但开发主要集中在
-提高兼容性、性能，并完成与平价所需的任何未实现的功能
-香草渲染器。
+Please note that while the issue tracker is open to feature requests, development is primarily focused on
+improving compatibility, performance, and finishing any unimplemented features necessary for parity with
+the vanilla renderer.
 
 ### 💬 Join the Community
 
@@ -61,22 +64,22 @@ We have an [official Discord community](https://caffeinemc.net/discord) for all 
 
 ## ✅ Hardware Compatibility
 
-我们只对具有与OpenGL 4.5兼容的最新驱动程序的图形卡提供官方支持
-或更新。过去12年中发布的大多数图形卡都将满足这些要求，包括以下内容：
+We only provide official support for graphics cards which have up-to-date drivers that are compatible with OpenGL 4.5
+or newer. Most graphics cards released in the past 12 years will meet these requirements, including the following:
 
--AMD Radeon HD 7000系列（GCN 1）或更新版本
--NVIDIA GeForce 400系列（费米）或更新版本
--Intel HD Graphics 500系列（Skylake）或更新版本
+- AMD Radeon HD 7000 Series (GCN 1) or newer
+- NVIDIA GeForce 400 Series (Fermi) or newer
+- Intel HD Graphics 500 Series (Skylake) or newer
 
-几乎所有已经与Minecraft兼容的显卡（需要OpenGL 3.3）也应该可以工作
-与钠。但我们的团队无法确保兼容性或为较旧的图形卡提供支持，他们可能会
-不适用于未来版本的Sodium。
+Nearly all graphics cards that are already compatible with Minecraft (which requires OpenGL 3.3) should also work
+with Sodium. But our team cannot ensure compatibility or provide support for older graphics cards, and they may
+not work with future versions of Sodium.
 
 #### OpenGL Compatibility Layers
 
-不支持需要使用OpenGL转换层的设备（如GL4ES、ANGLE等），并且很可能
-不使用钠。这些翻译层没有实现所需的功能，并且它们受到底层
-无法解决的驱动程序错误。
+Devices which need to use OpenGL translation layers (such as GL4ES, ANGLE, etc) are not supported and will very likely
+not work with Sodium. These translation layers do not implement required functionality and they suffer from underlying
+driver bugs which cannot be worked around.
 
 ## 🛠️ Building from sources
 

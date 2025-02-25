@@ -11,10 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+////////////////////////////////////////////////
 import net.caffeinemc.mods.sodium.client.console.Console;
 import net.caffeinemc.mods.sodium.client.console.message.MessageLevel;
 
 import net.caffeinemc.mods.sodium.api.system.SystemAndGLInfo;
+//////////////////////////////////////////////
 
 public class SodiumClientMod {
     private static SodiumGameOptions CONFIG;
@@ -26,7 +28,6 @@ public class SodiumClientMod {
         MOD_VERSION = version;
 
         CONFIG = loadConfig();
-
         if (SystemAndGLInfo.getInstance().isUsingPojavLauncher() && !CONFIG.luncherSettings.noLongerShowPovWarning)
         {
             Console.instance().logMessage(MessageLevel.WARN, "sodium.console.pojav_launcher", true, 10.0);
