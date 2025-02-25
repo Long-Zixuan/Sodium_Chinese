@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/////
 import net.caffeinemc.mods.sodium.client.console.Console;
 import net.caffeinemc.mods.sodium.client.console.message.MessageLevel;
 import net.caffeinemc.mods.sodium.api.system.SystemAndGLInfo;
+////
 
 public class SodiumClientMod {
     private static SodiumGameOptions CONFIG;
@@ -33,7 +35,6 @@ public class SodiumClientMod {
                     "likely cause severe performance issues, graphical issues, and crashes when used with Sodium. This " +
                     "configuration is not supported -- you are on your own!");
         }
-
 
         try {
             updateFingerprint();

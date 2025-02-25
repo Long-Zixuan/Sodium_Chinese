@@ -76,9 +76,6 @@ dependencies {
     configurationPreLaunch("org.slf4j:slf4j-api:2.0.9")
     configurationPreLaunch("org.jetbrains:annotations:25.0.0")
     configurationPreLaunch("com.github.oshi:oshi-core:6.4.0")
-
-    //configurationPreLaunch("com.alibaba:fastjson:1.2.47")
-    //configurationPreLaunch("org.json:json:20210307")
 }
 
 loom {
