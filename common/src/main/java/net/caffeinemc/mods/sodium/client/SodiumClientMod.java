@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+////////////
 import net.caffeinemc.mods.sodium.client.console.Console;
 import net.caffeinemc.mods.sodium.client.console.message.MessageLevel;
 import net.caffeinemc.mods.sodium.api.system.SystemAndGLInfo;
+///////////
 
 public class SodiumClientMod {
     private static SodiumGameOptions CONFIG;
